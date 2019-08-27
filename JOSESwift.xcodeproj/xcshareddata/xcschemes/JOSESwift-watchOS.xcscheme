@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "700AB63E231522430038F00D"
+               BlueprintIdentifier = "700AB6A023154FCA0038F00D"
                BuildableName = "JOSESwift.framework"
                BlueprintName = "JOSESwift-watchOS"
                ReferencedContainer = "container:JOSESwift.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "700AB63E231522430038F00D"
+            BlueprintIdentifier = "700AB6A023154FCA0038F00D"
             BuildableName = "JOSESwift.framework"
             BlueprintName = "JOSESwift-watchOS"
             ReferencedContainer = "container:JOSESwift.xcodeproj">
@@ -63,7 +63,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "700AB63E231522430038F00D"
+            BlueprintIdentifier = "700AB6A023154FCA0038F00D"
             BuildableName = "JOSESwift.framework"
             BlueprintName = "JOSESwift-watchOS"
             ReferencedContainer = "container:JOSESwift.xcodeproj">
