@@ -84,6 +84,58 @@
 		65F44EB11FE2D941000C5EA0 /* JWK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F44EB01FE2D941000C5EA0 /* JWK.swift */; };
 		65F44EB31FE2E1C6000C5EA0 /* RSAKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F44EB21FE2E1C6000C5EA0 /* RSAKeys.swift */; };
 		65FBFDE71F45CC7C005C7D68 /* JOSESwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 65FBFDE51F45CC7C005C7D68 /* JOSESwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		700AB640231522430038F00D /* RSAEncrypter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65617FCC1F90FB7600D8C743 /* RSAEncrypter.swift */; };
+		700AB641231522430038F00D /* Encrypter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65617FCA1F90F8C700D8C743 /* Encrypter.swift */; };
+		700AB642231522430038F00D /* JWKExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E733CB1FEBE8320009EAC6 /* JWKExtensions.swift */; };
+		700AB643231522430038F00D /* JWKSetCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6536560C2035DF8300A3AC3B /* JWKSetCodable.swift */; };
+		700AB644231522430038F00D /* SecKeyRSAPublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6546FB0E2029DD10002E421F /* SecKeyRSAPublicKey.swift */; };
+		700AB645231522430038F00D /* Decrypter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6572C2F11F96428800D4186D /* Decrypter.swift */; };
+		700AB646231522430038F00D /* JWKSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653656082035D86E00A3AC3B /* JWKSet.swift */; };
+		700AB647231522430038F00D /* Deserializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D1D0661F7A878D006377CD /* Deserializer.swift */; };
+		700AB648231522430038F00D /* JWK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F44EB01FE2D941000C5EA0 /* JWK.swift */; };
+		700AB649231522430038F00D /* ASN1DERParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6582614E2029F2D100B594ED /* ASN1DERParsing.swift */; };
+		700AB64A231522430038F00D /* RSADecrypter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6567F4DD1F98C8B50037ECB3 /* RSADecrypter.swift */; };
+		700AB64B231522430038F00D /* SecureRandom.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85012E21FE04E0C00EC49FA /* SecureRandom.swift */; };
+		700AB64C231522430038F00D /* ASN1DEREncoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6514ADC82031DD15008A4DD3 /* ASN1DEREncoding.swift */; };
+		700AB64D231522430038F00D /* RSA.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8610F0A2029D21800859FCC /* RSA.swift */; };
+		700AB64E231522430038F00D /* RSAKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65F44EB21FE2E1C6000C5EA0 /* RSAKeys.swift */; };
+		700AB64F231522430038F00D /* AESDecrypter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6505236F1FB494BE00E0B1B1 /* AESDecrypter.swift */; };
+		700AB650231522430038F00D /* Serializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652F6DE81F73E6780002DEE0 /* Serializer.swift */; };
+		700AB651231522430038F00D /* Payload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A7A1981F7295F5009449E7 /* Payload.swift */; };
+		700AB652231522430038F00D /* HMAC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81DD9271FD7096100026024 /* HMAC.swift */; };
+		700AB653231522430038F00D /* JWSHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6571F6221F7BF786004D53C5 /* JWSHeader.swift */; };
+		700AB654231522430038F00D /* RSAVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D8680E1F7CE35000769BBF /* RSAVerifier.swift */; };
+		700AB655231522430038F00D /* RSAKeyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65826AB12028696000AFFC46 /* RSAKeyCodable.swift */; };
+		700AB656231522430038F00D /* Algorithms.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8610F082029B15600859FCC /* Algorithms.swift */; };
+		700AB657231522430038F00D /* AESEncrypter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6505236D1FB4940100E0B1B1 /* AESEncrypter.swift */; };
+		700AB658231522430038F00D /* SymmetricKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D8E8E720F499EF0059506A /* SymmetricKeys.swift */; };
+		700AB659231522430038F00D /* DataConvertible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D1D0641F7A4DB3006377CD /* DataConvertible.swift */; };
+		700AB65A231522430038F00D /* JWE.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6533552D1F8FB61000A660C6 /* JWE.swift */; };
+		700AB65B231522430038F00D /* Signer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85B1EF3204D82860026BDCB /* Signer.swift */; };
+		700AB65C231522430038F00D /* DeflateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A30B8F722118FD0001834E3 /* DeflateWrapper.swift */; };
+		700AB65D231522430038F00D /* SymmetricKeyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D8E8E920F4AF880059506A /* SymmetricKeyCodable.swift */; };
+		700AB65E231522430038F00D /* RSASigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85B1EF5204D82970026BDCB /* RSASigner.swift */; };
+		700AB65F231522430038F00D /* DataSymmetricKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65344C3D20F4CC9000FCBBA1 /* DataSymmetricKey.swift */; };
+		700AB660231522430038F00D /* Verifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65D868101F7CEBA200769BBF /* Verifier.swift */; };
+		700AB661231522430038F00D /* JOSESwiftError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C86B876C203D857B00208387 /* JOSESwiftError.swift */; };
+		700AB662231522430038F00D /* JOSEHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A77E931F7285A900A66DDE /* JOSEHeader.swift */; };
+		700AB663231522430038F00D /* JWEHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653355291F8F6B6800A660C6 /* JWEHeader.swift */; };
+		700AB664231522430038F00D /* DataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65353F5C1F750A6A003E099B /* DataExtensions.swift */; };
+		700AB665231522430038F00D /* JWKParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E733D01FEBF7960009EAC6 /* JWKParameters.swift */; };
+		700AB666231522430038F00D /* DataRSAPublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6582614C2029E98A00B594ED /* DataRSAPublicKey.swift */; };
+		700AB667231522430038F00D /* AES.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81DBD571FFE66E700ECF69E /* AES.swift */; };
+		700AB668231522430038F00D /* JWS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85B1EF1204D82640026BDCB /* JWS.swift */; };
+		700AB669231522430038F00D /* ECKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB76A41AECF99F3673C1C40 /* ECKeys.swift */; };
+		700AB66A231522430038F00D /* ECKeyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB76EBD36093E9EC475BC2B /* ECKeyCodable.swift */; };
+		700AB66B231522430038F00D /* Compressor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4B08B12213FF0600828536 /* Compressor.swift */; };
+		700AB66C231522430038F00D /* EC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB760DB390F90F91102DB74 /* EC.swift */; };
+		700AB66D231522430038F00D /* SecKeyECPublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB76CEA2BD69C2AF38D2AFC /* SecKeyECPublicKey.swift */; };
+		700AB66E231522430038F00D /* ECSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB76AF2833DDD77D56D6D3F /* ECSigner.swift */; };
+		700AB66F231522430038F00D /* ECVerifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB767ECBB50E5A47C671DC1 /* ECVerifier.swift */; };
+		700AB670231522430038F00D /* DataECPublicKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB763EED5A790CCC29F8771 /* DataECPublicKey.swift */; };
+		700AB671231522430038F00D /* DataECPrivateKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB7604267B94DC5091D7105 /* DataECPrivateKey.swift */; };
+		700AB672231522430038F00D /* SecKeyECPrivateKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FB76E4A3A52AAC72B1F33F0 /* SecKeyECPrivateKey.swift */; };
+		700AB675231522430038F00D /* JOSESwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 65FBFDE51F45CC7C005C7D68 /* JOSESwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8A30B8F822118FD0001834E3 /* DeflateWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A30B8F722118FD0001834E3 /* DeflateWrapper.swift */; };
 		8A30B8FA22118FE6001834E3 /* JWECompressionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A30B8F922118FE6001834E3 /* JWECompressionTests.swift */; };
 		8A4B08B22213FF0600828536 /* Compressor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4B08B12213FF0600828536 /* Compressor.swift */; };
@@ -204,6 +256,8 @@
 		65FBFDE21F45CC7C005C7D68 /* JOSESwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JOSESwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		65FBFDE51F45CC7C005C7D68 /* JOSESwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JOSESwift.h; sourceTree = "<group>"; };
 		65FBFDE61F45CC7C005C7D68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		700AB67B231522430038F00D /* JOSESwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JOSESwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		700AB67C231522430038F00D /* JOSESwift copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "JOSESwift copy-Info.plist"; path = "/Users/fnuky/JOSESwift/JOSESwift copy-Info.plist"; sourceTree = "<absolute>"; };
 		8A30B8F722118FD0001834E3 /* DeflateWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeflateWrapper.swift; sourceTree = "<group>"; };
 		8A30B8F922118FE6001834E3 /* JWECompressionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JWECompressionTests.swift; sourceTree = "<group>"; };
 		8A4B08B12213FF0600828536 /* Compressor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Compressor.swift; sourceTree = "<group>"; };
@@ -243,6 +297,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		65FBFDDE1F45CC7C005C7D68 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		700AB673231522430038F00D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -454,6 +515,7 @@
 				65A9D3D81F45CDD7004E0B61 /* Tests */,
 				65FBFDE31F45CC7C005C7D68 /* Products */,
 				C8610F54202DD93600859FCC /* Frameworks */,
+				700AB67C231522430038F00D /* JOSESwift copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -462,6 +524,7 @@
 			children = (
 				65FBFDE21F45CC7C005C7D68 /* JOSESwift.framework */,
 				65A9D3D71F45CDD7004E0B61 /* Tests.xctest */,
+				700AB67B231522430038F00D /* JOSESwift.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -520,6 +583,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		700AB674231522430038F00D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				700AB675231522430038F00D /* JOSESwift.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -560,6 +631,25 @@
 			productReference = 65FBFDE21F45CC7C005C7D68 /* JOSESwift.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		700AB63E231522430038F00D /* JOSESwift-watchOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 700AB678231522430038F00D /* Build configuration list for PBXNativeTarget "JOSESwift-watchOS" */;
+			buildPhases = (
+				700AB63F231522430038F00D /* Sources */,
+				700AB673231522430038F00D /* Frameworks */,
+				700AB674231522430038F00D /* Headers */,
+				700AB676231522430038F00D /* Resources */,
+				700AB677231522430038F00D /* SwiftLint */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "JOSESwift-watchOS";
+			productName = JOSESwift;
+			productReference = 700AB67B231522430038F00D /* JOSESwift.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -582,6 +672,9 @@
 						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
+					700AB63E231522430038F00D = {
+						DevelopmentTeam = 4857DE3DAC;
+					};
 				};
 			};
 			buildConfigurationList = 65FBFDDC1F45CC7C005C7D68 /* Build configuration list for PBXProject "JOSESwift" */;
@@ -599,6 +692,7 @@
 			targets = (
 				65FBFDE11F45CC7C005C7D68 /* JOSESwift */,
 				65A9D3D61F45CDD7004E0B61 /* Tests */,
+				700AB63E231522430038F00D /* JOSESwift-watchOS */,
 			);
 		};
 /* End PBXProject section */
@@ -619,10 +713,35 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		700AB676231522430038F00D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		4E06574B223CC78D00D7A199 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint or run `brew bundle`\"\nfi\n";
+		};
+		700AB677231522430038F00D /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -755,6 +874,64 @@
 				5FB763AFF6BE04E8A6AE4DFC /* DataECPublicKey.swift in Sources */,
 				5FB7628EC6EA2C4263853DE9 /* DataECPrivateKey.swift in Sources */,
 				5FB76BA2D0344083B8F79D53 /* SecKeyECPrivateKey.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		700AB63F231522430038F00D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				700AB640231522430038F00D /* RSAEncrypter.swift in Sources */,
+				700AB641231522430038F00D /* Encrypter.swift in Sources */,
+				700AB642231522430038F00D /* JWKExtensions.swift in Sources */,
+				700AB643231522430038F00D /* JWKSetCodable.swift in Sources */,
+				700AB644231522430038F00D /* SecKeyRSAPublicKey.swift in Sources */,
+				700AB645231522430038F00D /* Decrypter.swift in Sources */,
+				700AB646231522430038F00D /* JWKSet.swift in Sources */,
+				700AB647231522430038F00D /* Deserializer.swift in Sources */,
+				700AB648231522430038F00D /* JWK.swift in Sources */,
+				700AB649231522430038F00D /* ASN1DERParsing.swift in Sources */,
+				700AB64A231522430038F00D /* RSADecrypter.swift in Sources */,
+				700AB64B231522430038F00D /* SecureRandom.swift in Sources */,
+				700AB64C231522430038F00D /* ASN1DEREncoding.swift in Sources */,
+				700AB64D231522430038F00D /* RSA.swift in Sources */,
+				700AB64E231522430038F00D /* RSAKeys.swift in Sources */,
+				700AB64F231522430038F00D /* AESDecrypter.swift in Sources */,
+				700AB650231522430038F00D /* Serializer.swift in Sources */,
+				700AB651231522430038F00D /* Payload.swift in Sources */,
+				700AB652231522430038F00D /* HMAC.swift in Sources */,
+				700AB653231522430038F00D /* JWSHeader.swift in Sources */,
+				700AB654231522430038F00D /* RSAVerifier.swift in Sources */,
+				700AB655231522430038F00D /* RSAKeyCodable.swift in Sources */,
+				700AB656231522430038F00D /* Algorithms.swift in Sources */,
+				700AB657231522430038F00D /* AESEncrypter.swift in Sources */,
+				700AB658231522430038F00D /* SymmetricKeys.swift in Sources */,
+				700AB659231522430038F00D /* DataConvertible.swift in Sources */,
+				700AB65A231522430038F00D /* JWE.swift in Sources */,
+				700AB65B231522430038F00D /* Signer.swift in Sources */,
+				700AB65C231522430038F00D /* DeflateWrapper.swift in Sources */,
+				700AB65D231522430038F00D /* SymmetricKeyCodable.swift in Sources */,
+				700AB65E231522430038F00D /* RSASigner.swift in Sources */,
+				700AB65F231522430038F00D /* DataSymmetricKey.swift in Sources */,
+				700AB660231522430038F00D /* Verifier.swift in Sources */,
+				700AB661231522430038F00D /* JOSESwiftError.swift in Sources */,
+				700AB662231522430038F00D /* JOSEHeader.swift in Sources */,
+				700AB663231522430038F00D /* JWEHeader.swift in Sources */,
+				700AB664231522430038F00D /* DataExtensions.swift in Sources */,
+				700AB665231522430038F00D /* JWKParameters.swift in Sources */,
+				700AB666231522430038F00D /* DataRSAPublicKey.swift in Sources */,
+				700AB667231522430038F00D /* AES.swift in Sources */,
+				700AB668231522430038F00D /* JWS.swift in Sources */,
+				700AB669231522430038F00D /* ECKeys.swift in Sources */,
+				700AB66A231522430038F00D /* ECKeyCodable.swift in Sources */,
+				700AB66B231522430038F00D /* Compressor.swift in Sources */,
+				700AB66C231522430038F00D /* EC.swift in Sources */,
+				700AB66D231522430038F00D /* SecKeyECPublicKey.swift in Sources */,
+				700AB66E231522430038F00D /* ECSigner.swift in Sources */,
+				700AB66F231522430038F00D /* ECVerifier.swift in Sources */,
+				700AB670231522430038F00D /* DataECPublicKey.swift in Sources */,
+				700AB671231522430038F00D /* DataECPrivateKey.swift in Sources */,
+				700AB672231522430038F00D /* SecKeyECPrivateKey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -961,6 +1138,51 @@
 			};
 			name = Release;
 		};
+		700AB679231522430038F00D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 4857DE3DAC;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "JOSESwift copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.airsidemobile.JOSESwift;
+				PRODUCT_NAME = JOSESwift;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		700AB67A231522430038F00D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 4857DE3DAC;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "JOSESwift copy-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.airsidemobile.JOSESwift;
+				PRODUCT_NAME = JOSESwift;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -987,6 +1209,15 @@
 			buildConfigurations = (
 				65FBFDEB1F45CC7C005C7D68 /* Debug */,
 				65FBFDEC1F45CC7C005C7D68 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		700AB678231522430038F00D /* Build configuration list for PBXNativeTarget "JOSESwift-watchOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				700AB679231522430038F00D /* Debug */,
+				700AB67A231522430038F00D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
