@@ -1,0 +1,27 @@
+cache:
+  key: joseswift
+
+before_script:
+  - git reset --hard
+ 
+stages:
+  - util
+  - test
+  - upload
+  
+variables:
+  LC_ALL: "en_US.UTF-8"
+  LANG: "en_US.UTF-8"
+
+Release to Nexus:
+  stage: upload
+  when: manual
+  script:
+    - fastlane ReleaseNexus
+  only:
+     - master
+     - tags
+  except:
+    - branches
+  tags:
+    - xcode12
