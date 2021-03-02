@@ -5,6 +5,26 @@ skip_docs
 TEST_OUTPUT = "fastlane/test_output"
 DERIVED_DATA_PATH = "#{TEST_OUTPUT}/derived_data"
 
+desc "Release Nexus Lane - Build & Upload"
+lane :ReleaseNexus do 
+  path = "./_Release"
+  target = "JOSESwift"
+  sh("cd ..; sh build_xcframeworks.sh -f '#{target}' -p '#{path}'")
+
+  version = get_version_number(xcodeproj: "JOSESwift.xcodeproj", target: "#{target}")
+
+  UI.message("Checking tag for #{version}")
+  if git_tag_exists(tag: "#{version}")
+  else
+    UI.message("Tag for #{version} does not exists")
+    next
+  end
+
+  repository = "ahead-ios-release"
+  group = "com/aheaditec/utils"
+  sh("cd ..; sh upload_xcframeworks.sh -p '#{path}' -r '#{repository}' -g '#{group}' -a '#{target}' -v '#{version}'")
+end
+
 desc "Run the tests"
 lane :test do
   UI.message "Cleaning derived data directory"
