@@ -9,7 +9,7 @@ desc "Release Nexus Lane - Build & Upload"
 lane :ReleaseNexus do 
   path = "./_Release"
   target = "JOSESwift"
-  sh("cd ..; sh build_xcframeworks.sh -f '#{target}' -p '#{path}'")
+  sh("cd ..; sh build_xcframeworks.sh -f '#{target}' -p '#{path}' -m")
 
   version = get_version_number(xcodeproj: "JOSESwift.xcodeproj", target: "#{target}")
 
