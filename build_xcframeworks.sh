@@ -1,3 +1,21 @@
+printUsage() {
+    echo "Script for archiving frameworks and assembling xcframeworks."
+    echo "Script usage:"
+    echo "sh <path_to_script> <options>"
+    echo ""
+    echo "Options: "
+    echo "  -m <value>     optional switch for building catalyst"
+    echo "  -p <value>     path to output directory (defaults to './')"
+    echo "  -f <value>     framework to build & assemble"
+    echo ""
+}
+
+printInputValidationFailure() {
+    echo "Invalid usage."
+    echo "Required input missing - $1. Please pass scheme (-$2) argument"
+    echo ""
+}
+
 remove_old_archives() 
 {
     SCHEME_TO_REMOVE=$1
@@ -12,6 +30,19 @@ remove_old_archives()
     rm -rf ${ARCHIVE_PATH}/${SCHEME_TO_REMOVE}-iphoneos.xcarchive
     rm -rf ${ARCHIVE_PATH}/${SCHEME_TO_REMOVE}-iphonesimulator.xcarchive
     rm -rf ${ARCHIVE_PATH}/${SCHEME_TO_REMOVE}-catalyst.xcarchive
+}
+
+remove_old_xcframework() {
+    SCHEME_TO_REMOVE=$1
+
+    if [ -z ${SCHEME_TO_REMOVE} ]; then 
+        echo "Illegal arguments for 'remove_old_xcframework'"
+        return 2
+    fi
+
+    echo "Removing old xcframework: ${ARCHIVE_PATH}/${SCHEME_TO_REMOVE}"
+
+    rm -rf ${ARCHIVE_PATH}/${SCHEME_TO_REMOVE}.xcframework
 }
 
 build_scheme() 
@@ -92,10 +123,11 @@ assemble_xcframework()
     fi
 }
 
-#set -euo pipefail
+set -euo pipefail
 
 ARCHIVE_PATH="./"
 BUILD_CATALYST=false
+ITEM=""
 
 while getopts mp:f: flag
 do
@@ -106,7 +138,11 @@ do
     esac
 done
 
-BUILD_CATALYST=false
+if [ -z ${ITEM} ]; then 
+    printInputValidationFailure "framework" "f"
+    printUsage 
+    exit 2
+fi
 
 echo "\n"
 echo "Build Catalyst: $BUILD_CATALYST";
@@ -124,6 +160,7 @@ done
 echo "Archiving framworks:\n${ALL_FRAMEWORKS}"
 for FRAMEWORK in $ALL_FRAMEWORKS
 do
+    remove_old_xcframework $ITEM
     assemble_xcframework $FRAMEWORK $ITEM
 done
 
