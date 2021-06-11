@@ -160,7 +160,7 @@ done
 echo "Archiving framworks:\n${ALL_FRAMEWORKS}"
 for FRAMEWORK in $ALL_FRAMEWORKS
 do
-    remove_old_xcframework $ITEM
+    remove_old_xcframework $FRAMEWORK
     assemble_xcframework $FRAMEWORK $ITEM
 done
 
