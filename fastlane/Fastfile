@@ -5,6 +5,30 @@ skip_docs
 TEST_OUTPUT = "fastlane/test_output"
 DERIVED_DATA_PATH = "#{TEST_OUTPUT}/derived_data"
 
+platform :ios do
+  desc "Bump Major version in all frameworks"
+  lane :bump_major do 
+    increment_version_number(
+      bump_type: "major",
+      xcodeproj: "JOSESwift.xcodeproj"
+    )
+  end
+  desc "Bump Minor version in all frameworks"
+  lane :bump_minor do 
+    increment_version_number(
+      bump_type: "minor",
+      xcodeproj: "JOSESwift.xcodeproj"
+    )
+  end
+  desc "Bump Patch version in all frameworks"
+  lane :bump_patch do 
+    increment_version_number(
+      bump_type: "patch",
+      xcodeproj: "JOSESwift.xcodeproj"
+    )
+  end
+end
+
 desc "Release Nexus Lane - Build & Upload"
 lane :ReleaseNexus do 
   path = "./_Release"
@@ -23,28 +47,6 @@ lane :ReleaseNexus do
   repository = "ahead-ios-release"
   group = "com/aheaditec/utils"
   sh("cd ..; sh upload_xcframeworks.sh -p '#{path}' -r '#{repository}' -g '#{group}' -a '#{target}' -v '#{version}'")
-end
-
-desc "Bump Major version in all frameworks"
-lane :bump_major do 
-  increment_version_number(
-    bump_type: "major",
-    xcodeproj: "JOSESwift.xcodeproj"
-  )
-end
-desc "Bump Minor version in all frameworks"
-lane :bump_minor do 
-  increment_version_number(
-    bump_type: "minor",
-    xcodeproj: "JOSESwift.xcodeproj"
-  )
-end
-desc "Bump Patch version in all frameworks"
-lane :bump_patch do 
-  increment_version_number(
-    bump_type: "patch",
-    xcodeproj: "JOSESwift.xcodeproj"
-  )
 end
 
 desc "Run the tests"
