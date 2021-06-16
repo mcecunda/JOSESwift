@@ -7,7 +7,8 @@ let package = Package(
     name: "JOSESwift",
     platforms: [
         .iOS(.v11),
-        .watchOS(.v4)
+        .watchOS(.v4),
+        .macOS(.v10_15)
     ],
     products: [
         .library(
