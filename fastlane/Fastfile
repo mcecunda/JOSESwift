@@ -32,8 +32,9 @@ end
 desc "Release Nexus Lane - Build & Upload"
 lane :ReleaseNexus do 
   path = "./_Release"
+  dsym = "./_dSYMs"
   target = "JOSESwift"
-  sh("cd ..; sh build_xcframeworks.sh -f '#{target}' -p '#{path}' -m")
+  sh("cd ..; sh build_xcframeworks.sh -f '#{target}' -p '#{path}' -m -d '#{dsym}'")
 
   version = get_version_number(xcodeproj: "JOSESwift.xcodeproj", target: "#{target}")
 
@@ -46,7 +47,7 @@ lane :ReleaseNexus do
 
   repository = "ahead-ios-release"
   group = "com/aheaditec/utils"
-  sh("cd ..; sh upload_xcframeworks.sh -p '#{path}' -r '#{repository}' -g '#{group}' -a '#{target}' -v '#{version}'")
+  sh("cd ..; sh upload_xcframeworks.sh -p '#{path}' -r '#{repository}' -g '#{group}' -a '#{target}' -v '#{version}' -s '#{path}/#{dsym}'")
 end
 
 desc "Run the tests"
