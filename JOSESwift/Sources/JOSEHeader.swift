@@ -5,7 +5,7 @@
 //  Created by Daniel Egger on 20/09/2017.
 //
 //  ---------------------------------------------------------------------------
-//  Copyright 2018 Airside Mobile Inc.
+//  Copyright 2019 Airside Mobile Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -64,6 +64,7 @@ extension JOSEHeader {
 public protocol CommonHeaderParameterSpace {
     var jku: URL? { get set }
     var jwk: String? { get set }
+    var jwkTyped: JWK? { get set }
     var kid: String? { get set }
     var x5u: URL? { get set }
     var x5c: [String]? { get set }

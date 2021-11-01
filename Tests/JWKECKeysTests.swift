@@ -6,7 +6,7 @@
 //  Created by Jarrod Moldrich on 09.01.2019.
 //
 //  ---------------------------------------------------------------------------
-//  Copyright 2018 Airside Mobile Inc.
+//  Copyright 2019 Airside Mobile Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -173,5 +173,92 @@ class JWKECKeysTests: ECCryptoTestCase {
         }
 
         XCTFail()
+    }
+
+    @available(iOS 11.0, *)
+    func testThumbprintPublicKey() {
+        allTestData.forEach { keyData in
+            let key = ECPublicKey(
+                    crv: ECCurveType(rawValue: keyData.expectedCurveType)!,
+                    x: keyData.expectedXCoordinateBase64Url,
+                    y: keyData.expectedYCoordinateBase64Url
+            )
+
+            XCTAssertEqual(try? key.thumbprint(), keyData.expectedThumbprint)
+        }
+    }
+
+    @available(iOS 11.0, *)
+    func testThumbprintPrivateKey() {
+        allTestData.forEach { keyData in
+            let key = try! ECPrivateKey(
+                    crv: keyData.expectedCurveType,
+                    x: keyData.expectedXCoordinateBase64Url,
+                    y: keyData.expectedYCoordinateBase64Url,
+                    privateKey: keyData.expectedPrivateBase64Url
+            )
+
+            XCTAssertEqual(try? key.thumbprint(), keyData.expectedThumbprint)
+        }
+    }
+
+    @available(iOS 11.0, *)
+    func testAddPublicThumbprintToJWK() throws {
+        try allTestData.forEach { keyData in
+            let key = try ECPublicKey(
+                    crv: ECCurveType(rawValue: keyData.expectedCurveType)!,
+                    x: keyData.expectedXCoordinateBase64Url,
+                    y: keyData.expectedYCoordinateBase64Url
+            ).withThumbprintAsKeyId()
+
+            XCTAssertEqual(key.parameters[JWKParameter.keyIdentifier.rawValue], keyData.expectedThumbprint)
+        }
+    }
+
+    @available(iOS 11.0, *)
+    func testAddPublicThumbprintToJWKCopyParameters() throws {
+        let useKey = "sig"
+        try allTestData.forEach { keyData in
+            let key = try ECPublicKey(
+                    crv: ECCurveType(rawValue: keyData.expectedCurveType)!,
+                    x: keyData.expectedXCoordinateBase64Url,
+                    y: keyData.expectedYCoordinateBase64Url,
+                    additionalParameters: [JWKParameter.keyUse.rawValue: useKey]
+            ).withThumbprintAsKeyId()
+
+            XCTAssertEqual(key.parameters[JWKParameter.keyIdentifier.rawValue], keyData.expectedThumbprint)
+            XCTAssertEqual(key.parameters[JWKParameter.keyUse.rawValue], useKey)
+        }
+    }
+
+    @available(iOS 11.0, *)
+    func testAddPrivateThumbprintToJWK() throws {
+        try allTestData.forEach { keyData in
+            let key = try ECPrivateKey(
+                    crv: keyData.expectedCurveType,
+                    x: keyData.expectedXCoordinateBase64Url,
+                    y: keyData.expectedYCoordinateBase64Url,
+                    privateKey: keyData.expectedPrivateBase64Url
+            ).withThumbprintAsKeyId()
+
+            XCTAssertEqual(key.parameters[JWKParameter.keyIdentifier.rawValue], keyData.expectedThumbprint)
+        }
+    }
+
+    @available(iOS 11.0, *)
+    func testAddPrivateThumbprintToJWKCopyParameters() throws {
+        let useKey = "sig"
+        try allTestData.forEach { keyData in
+            let key = try ECPrivateKey(
+                    crv: keyData.expectedCurveType,
+                    x: keyData.expectedXCoordinateBase64Url,
+                    y: keyData.expectedYCoordinateBase64Url,
+                    privateKey: keyData.expectedPrivateBase64Url,
+                    additionalParameters: [JWKParameter.keyUse.rawValue: useKey]
+            ).withThumbprintAsKeyId()
+
+            XCTAssertEqual(key.parameters[JWKParameter.keyIdentifier.rawValue], keyData.expectedThumbprint)
+            XCTAssertEqual(key.parameters[JWKParameter.keyUse.rawValue], useKey)
+        }
     }
 }

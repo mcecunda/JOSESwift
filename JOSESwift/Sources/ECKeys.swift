@@ -5,7 +5,7 @@
 //  Created by Jarrod Moldrich on 02.07.18.
 //
 //  ---------------------------------------------------------------------------
-//  Copyright 2018 Airside Mobile Inc.
+//  Copyright 2019 Airside Mobile Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -98,6 +98,16 @@ public struct ECPublicKey: JWK {
     /// The JWK parameters.
     public let parameters: [String: String]
 
+    /// The EC public key required parameters
+    public var requiredParameters: [String: String] {
+        [
+            JWKParameter.keyType.rawValue: self.keyType.rawValue,
+            ECParameter.curve.rawValue: self.crv.rawValue,
+            ECParameter.x.rawValue: self.x,
+            ECParameter.y.rawValue: self.y
+        ]
+    }
+
     /// The curve value for the EC public key.
     public let crv: ECCurveType
 
@@ -187,6 +197,14 @@ public struct ECPublicKey: JWK {
 
         return try T.representing(ecPublicKeyComponents: (self.crv.rawValue, x, y))
     }
+
+    @available(iOS 11.0, *)
+    public func withThumbprintAsKeyId(algorithm: JWKThumbprintAlgorithm = .SHA256) throws -> Self {
+        let keyId = try thumbprint(algorithm: algorithm)
+        return .init(crv: crv, x: x, y: y, additionalParameters: parameters.merging([
+            JWKParameter.keyIdentifier.rawValue: keyId
+        ], uniquingKeysWith: { (_, new) in new }))
+    }
 }
 
 // MARK: Private Key
@@ -198,6 +216,16 @@ public struct ECPrivateKey: JWK {
 
     /// The JWK parameters.
     public let parameters: [String: String]
+
+    /// The EC private key required parameters
+    public var requiredParameters: [String: String] {
+        [
+            JWKParameter.keyType.rawValue: self.keyType.rawValue,
+            ECParameter.curve.rawValue: self.crv.rawValue,
+            ECParameter.x.rawValue: self.x,
+            ECParameter.y.rawValue: self.y
+        ]
+    }
 
     /// The curve value for the EC public key.
     public let crv: ECCurveType
@@ -300,6 +328,14 @@ public struct ECPrivateKey: JWK {
         }
 
         return try T.representing(ecPrivateKeyComponents: (self.crv.rawValue, x, y, privateKey))
+    }
+
+    @available(iOS 11.0, *)
+    public func withThumbprintAsKeyId(algorithm: JWKThumbprintAlgorithm = .SHA256) throws -> Self {
+        let keyId = try thumbprint(algorithm: algorithm)
+        return try .init(crv: crv.rawValue, x: x, y: y, privateKey: privateKey, additionalParameters: parameters.merging([
+            JWKParameter.keyIdentifier.rawValue: keyId
+        ], uniquingKeysWith: { (_, new) in new }))
     }
 }
 

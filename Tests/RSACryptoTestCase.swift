@@ -6,7 +6,7 @@
 //  Created by Jarrod Moldrich on 07.10.18.
 //
 //  ---------------------------------------------------------------------------
-//  Copyright 2018 Airside Mobile Inc.
+//  Copyright 2019 Airside Mobile Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -44,6 +44,15 @@ class RSACryptoTestCase: CryptoTestCase {
         6BKLWMS_aUVgqizOIXH0IeuVz1COpSLlsQ5KICUaqsxYyPfD28vbbQ9IfJ4RyJmSqEEx-M8BY2r4v_HHL-kyvjqGbSoF7o9Z6Cg1CetPJ5OHPBM\
         XZa_Aj3LkNWn1GSw5B4WQueb8E0uJVAzLSNbxA-ZNowlOgDtKHOEkwbZu6zj7WvLEm8xovgmAha_y7HssoXnH26Nu-8RMUYw-LXUJz6Fny1F_xc\
         v_TA
+        """
+
+    let compactSerializedJWSRS384Const =
+        """
+        eyJhbGciOiJSUzM4NCJ9.VGhlIHRydWUgc2lnbiBvZiBpbnRlbGxpZ2VuY2UgaXMgbm90IGtub3dsZWRnZSBidXQgaW1hZ2luYXRpb24u.NWuwp\
+        XlQ3uw0I8rqPkTfBKf51L96AJ3kldSkNa-CP6f9yWjq9BZMZv9vB7Xf8_9JMUUXAR1zT26y0fEN2QE_cD9a6qrzmNA5VzWLmRU8W1tJKgZK-blJ\
+        GoAKPmJkTO-jbv5FmoxTseBgkXmtk7qcBUacAmbHHnUpHI3doAiWwttytmQ8qHjwI4R0GkzP_-kvKBouzCDtaaFaFOKIu6hac0X3-wujzYgAJAo\
+        KgCpVXyaXV14SBSB34Am2QDQnxC66olfuC0J6tYEWxrQ9akze0KBOnDP3ujRta3yG1i19ziG_J8VHBzgBHPp4qSU78pGgb2n6_9UcYwjJialwiI\
+        Fq3w
         """
 
     let compactSerializedJWSRS256Const =

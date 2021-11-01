@@ -6,7 +6,7 @@
 //  Created by Carol Capek on 31.10.17.
 //
 //  ---------------------------------------------------------------------------
-//  Copyright 2018 Airside Mobile Inc.
+//  Copyright 2019 Airside Mobile Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -168,5 +168,19 @@ class DataExtensionTests: XCTestCase {
         let dataLength = testData.getByteLengthAsOctetHexData()
 
         XCTAssertNotEqual(falseTestDataLengthAsOctetHex, dataLength)
+    }
+
+    func testTrueTimingSafeCompare() {
+        let testData1 = "54 68 65 20 73 65 63 6f 6e 64 20 70 72 69 6e 63 69 70 6c 65 20 6f 66 20 41 75 67 75 73 74 65 20 4b 65 72 63 6b 68 6f 66 66 73".hexadecimalToData()!
+        let testData2 = "54 68 65 20 73 65 63 6f 6e 64 20 70 72 69 6e 63 69 70 6c 65 20 6f 66 20 41 75 67 75 73 74 65 20 4b 65 72 63 6b 68 6f 66 66 73".hexadecimalToData()!
+        XCTAssertEqual(true, testData1.timingSafeCompare(with: testData2))
+        XCTAssertEqual(true, testData1._timingSafeCompare(with: testData2))
+    }
+
+    func testFalseTimingSafeCompare() {
+        let testData1 = "54 68 65 20 73 65 63 6f 6e 64 20 70 72 69 6e 63 69 70 6c 65 20 6f 66 20 41 75 67 75 73 74 65 20 4b 65 72 63 6b 68 6f 66 66 73".hexadecimalToData()!
+        let testData2 = "64 68 65 20 73 65 63 6f 6e 64 20 70 72 69 6e 63 69 70 6c 65 20 6f 66 20 41 75 67 75 73 74 65 20 4b 65 72 63 6b 68 6f 66 66 73".hexadecimalToData()!
+        XCTAssertEqual(false, testData1.timingSafeCompare(with: testData2))
+        XCTAssertEqual(false, testData1._timingSafeCompare(with: testData2))
     }
 }

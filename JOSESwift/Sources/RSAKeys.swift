@@ -5,7 +5,7 @@
 //  Created by Daniel Egger on 14.12.17.
 //
 //  ---------------------------------------------------------------------------
-//  Copyright 2018 Airside Mobile Inc.
+//  Copyright 2019 Airside Mobile Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -96,6 +96,15 @@ public struct RSAPublicKey: JWK {
     /// The JWK parameters.
     public let parameters: [String: String]
 
+    /// The RSA required parameters
+    public var requiredParameters: [String: String] {
+        [
+            JWKParameter.keyType.rawValue: self.keyType.rawValue,
+            RSAParameter.modulus.rawValue: self.modulus,
+            RSAParameter.exponent.rawValue: self.exponent
+        ]
+    }
+
     /// The modulus value for the RSA public key.
     public let modulus: String
 
@@ -174,6 +183,14 @@ public struct RSAPublicKey: JWK {
 
         return try T.representing(rsaPublicKeyComponents: (modulusData, exponentData))
     }
+
+    @available(iOS 11.0, *)
+    public func withThumbprintAsKeyId(algorithm: JWKThumbprintAlgorithm = .SHA256) throws -> Self {
+        let keyId = try thumbprint(algorithm: algorithm)
+        return .init(modulus: modulus, exponent: exponent, additionalParameters: parameters.merging([
+            JWKParameter.keyIdentifier.rawValue: keyId
+        ], uniquingKeysWith: { (_, new) in new }))
+    }
 }
 
 // MARK: Private Key
@@ -185,6 +202,15 @@ public struct RSAPrivateKey: JWK {
 
     /// The JWK parameters.
     public let parameters: [String: String]
+
+    /// The RSA required parameters
+    public var requiredParameters: [String: String] {
+        [
+            JWKParameter.keyType.rawValue: self.keyType.rawValue,
+            RSAParameter.modulus.rawValue: self.modulus,
+            RSAParameter.exponent.rawValue: self.exponent
+        ]
+    }
 
     /// The modulus value for the RSA private key.
     public let modulus: String
@@ -272,6 +298,14 @@ public struct RSAPrivateKey: JWK {
         }
 
         return try T.representing(rsaPrivateKeyComponents: (modulusData, exponentData, privateExponentData))
+    }
+
+    @available(iOS 11.0, *)
+    public func withThumbprintAsKeyId(algorithm: JWKThumbprintAlgorithm = .SHA256) throws -> Self {
+        let keyId = try thumbprint(algorithm: algorithm)
+        return .init(modulus: modulus, exponent: exponent, privateExponent: privateExponent, additionalParameters: parameters.merging([
+            JWKParameter.keyIdentifier.rawValue: keyId
+        ], uniquingKeysWith: { (_, new) in new }))
     }
 }
 

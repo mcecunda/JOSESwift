@@ -5,7 +5,7 @@
 //  Created by Daniel Egger on 17/10/2017.
 //
 //  ---------------------------------------------------------------------------
-//  Copyright 2018 Airside Mobile Inc.
+//  Copyright 2019 Airside Mobile Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -23,31 +23,88 @@
 
 import Foundation
 
-internal protocol AsymmetricDecrypter {
-    var algorithm: AsymmetricKeyAlgorithm { get }
+public struct Decrypter {
+    private let keyManagementMode: DecryptionKeyManagementMode
 
-    /// Decrypts a cipher text using a given `AsymmetricKeyAlgorithm` and the corresponding private key.
-    ///
-    /// - Parameter ciphertext: The encrypted cipher text to decrypt.
-    /// - Returns: The plain text (decrypted cipher text).
-    /// - Throws: `EncryptionError` if any error occured during decryption.
-    func decrypt(_ ciphertext: Data) throws -> Data
-}
+    let keyManagementAlgorithm: KeyManagementAlgorithm
+    let contentEncryptionAlgorithm: ContentEncryptionAlgorithm
 
-internal protocol SymmetricDecrypter {
-    var algorithm: SymmetricKeyAlgorithm { get }
-    var symmetricKey: Data? { get }
-
-    /// Decrypts a cipher text contained in the `SymmetricDecryptionContext` using a given symmetric key.
+    /// Constructs a decrypter that can be used to decrypt a JWE.
     ///
     /// - Parameters:
-    ///   - context: The `SymmetricDecryptionContext` containing the ciphertext, the initialization vector, additional authenticated data and the authentication tag.
-    ///   - symmetricKey: The key which contains the HMAC and encryption key.
-    /// - Returns: The plain text (decrypted cipher text).
-    /// - Throws: `EncryptionError` if any error occurs during decryption.
-    func decrypt(_ context: SymmetricDecryptionContext, with symmetricKey: Data) throws -> Data
+    ///   - keyManagementAlgorithm: The algorithm that was used to encrypt the content encryption key.
+    ///   - contentEncryptionAlgorithm: The algorithm that was used to encrypt the JWE's payload.
+    ///   - decryptionKey: The key used to perform the decryption. The function of the key depends on the chosen key
+    ///                    management algorithm.
+    ///     - For _key encryption_ it is the private key (`SecKey`) of the recipient to which the JWE was encrypted.
+    ///     - For _direct encryption_ it is the secret symmetric key (`Data`) shared between the sender and the
+    ///       recipient.
+    public init?<KeyType>(
+        keyManagementAlgorithm: KeyManagementAlgorithm,
+        contentEncryptionAlgorithm: ContentEncryptionAlgorithm,
+        decryptionKey: KeyType
+    ) {
+        self.keyManagementAlgorithm = keyManagementAlgorithm
+        self.contentEncryptionAlgorithm = contentEncryptionAlgorithm
+
+        let mode = keyManagementAlgorithm.makeDecryptionKeyManagementMode(
+            contentEncryptionAlgorithm: contentEncryptionAlgorithm,
+            decryptionKey: decryptionKey
+        )
+
+        guard let keyManagementMode = mode else { return nil }
+        self.keyManagementMode = keyManagementMode
+    }
+
+    internal func decrypt(_ context: DecryptionContext) throws -> Data {
+        guard let alg = context.protectedHeader.keyManagementAlgorithm, alg == keyManagementAlgorithm else {
+            throw JWEError.keyManagementAlgorithmMismatch
+        }
+
+        guard let enc = context.protectedHeader.contentEncryptionAlgorithm, enc == contentEncryptionAlgorithm else {
+            throw JWEError.contentEncryptionAlgorithmMismatch
+        }
+
+        let contentEncryptionKey = try keyManagementMode.determineContentEncryptionKey(from: context.encryptedKey)
+
+        let contentDecryptionContext = ContentDecryptionContext(
+            ciphertext: context.ciphertext,
+            initializationVector: context.initializationVector,
+            additionalAuthenticatedData: context.protectedHeader.data().base64URLEncodedData(),
+            authenticationTag: context.authenticationTag
+        )
+
+        return try contentEncryptionAlgorithm
+            .makeContentDecrypter(contentEncryptionKey: contentEncryptionKey)
+            .decrypt(decryptionContext: contentDecryptionContext)
+    }
 }
 
+extension Decrypter {
+    struct DecryptionContext {
+        let protectedHeader: JWEHeader
+        let encryptedKey: Data
+        let initializationVector: Data
+        let ciphertext: Data
+        let authenticationTag: Data
+    }
+}
+
+// MARK: - Deprecated API
+
+extension Decrypter {
+    @available(*, deprecated, message: "Use `init?(keyManagementAlgorithm:contentEncryptionAlgorithm:decryptionKey:)` instead")
+    public init?<KeyType>(keyDecryptionAlgorithm: AsymmetricKeyAlgorithm, decryptionKey key: KeyType, contentDecryptionAlgorithm: SymmetricKeyAlgorithm) {
+        self.init(keyManagementAlgorithm: keyDecryptionAlgorithm, contentEncryptionAlgorithm: contentDecryptionAlgorithm, decryptionKey: key)
+    }
+
+    @available(*, deprecated, message: "Use `init?(keyManagementAlgorithm:contentEncryptionAlgorithm:decryptionKey:)` instead")
+    public init?<KeyType>(keyDecryptionAlgorithm: AsymmetricKeyAlgorithm, keyDecryptionKey kdk: KeyType, contentDecryptionAlgorithm: SymmetricKeyAlgorithm) {
+        self.init(keyDecryptionAlgorithm: keyDecryptionAlgorithm, decryptionKey: kdk, contentDecryptionAlgorithm: contentDecryptionAlgorithm)
+    }
+}
+
+@available(*, deprecated, message: "This type will be removed with the next major release.")
 public struct DecryptionContext {
     let header: JWEHeader
     let encryptedKey: Data
@@ -56,107 +113,10 @@ public struct DecryptionContext {
     let authenticationTag: Data
 }
 
+@available(*, deprecated, message: "This type will be removed with the next major release.")
 public struct SymmetricDecryptionContext {
     let ciphertext: Data
     let initializationVector: Data
     let additionalAuthenticatedData: Data
     let authenticationTag: Data
-}
-
-public struct Decrypter {
-    let asymmetric: AsymmetricDecrypter
-    let symmetric: SymmetricDecrypter
-
-    /// Constructs a decrypter used to decrypt a JWE.
-    ///
-    /// - Parameters:
-    ///   - keyDecryptionAlgorithm: The algorithm used to decrypt the shared content encryption key.
-    ///   - key: The key used to perform the decryption. If the `keyDecryptionAlgorithm` is `.direct`, the
-    ///          `decryptionKey` is the shared symmetric content encryption key. Otherwise the `decryptionKey` is the
-    ///           private key of the receiver. See [RFC-7516](https://tools.ietf.org/html/rfc7516#section-5.2) for
-    ///           details.
-    ///   - contentDecryptionAlgorithm: The algorithm used to decrypt the JWE's payload.
-    /// - Returns: A fully initialized `Decrypter` or `nil` if provided key is of the wrong type.
-    public init?<KeyType>(keyDecryptionAlgorithm: AsymmetricKeyAlgorithm, decryptionKey key: KeyType, contentDecryptionAlgorithm: SymmetricKeyAlgorithm) {
-        // TODO: This switch won't scale. We need to refactor it. (#141)
-        switch (keyDecryptionAlgorithm, contentDecryptionAlgorithm) {
-        case (.RSA1_5, .A256CBCHS512), (.RSAOAEP, .A256CBCHS512), (.RSAOAEP256, .A256CBCHS512), (.RSA1_5, .A128CBCHS256), (.RSAOAEP, .A128CBCHS256), (.RSAOAEP256, .A128CBCHS256):
-            guard type(of: key) is RSADecrypter.KeyType.Type else {
-                return nil
-            }
-            // swiftlint:disable:next force_cast
-            self.asymmetric = RSADecrypter(algorithm: keyDecryptionAlgorithm, privateKey: (key as! RSADecrypter.KeyType))
-            self.symmetric = AESDecrypter(algorithm: contentDecryptionAlgorithm)
-        case (.direct, .A256CBCHS512), (.direct, .A128CBCHS256):
-            guard type(of: key) is AESDecrypter.KeyType.Type else {
-                return nil
-            }
-
-            self.asymmetric = RSADecrypter(algorithm: keyDecryptionAlgorithm)
-            // swiftlint:disable:next force_cast
-            self.symmetric = AESDecrypter(algorithm: contentDecryptionAlgorithm, symmetricKey: (key as! AESDecrypter.KeyType))
-        }
-    }
-
-    /// Constructs a decrypter used to decrypt a JWE.
-    ///
-    /// - Parameters:
-    ///   - keyDecryptionAlgorithm: The algorithm used to decrypt the shared content encryption key.
-    ///   - kdk: The private key used to decrypt the shared content encryption key.
-    ///          Currently supported key types are: `SecKey`.
-    ///   - contentDecryptionAlgorithm: The algorithm used to decrypt the JWE's payload.
-    /// - Returns: A fully initialized `Decrypter` or `nil` if provided key is of the wrong type.
-    @available(*, deprecated, message: "Use `init?(keyDecryptionAlgorithm:decryptionKey:contentDecyptionAlgorithm:)` instead")
-    public init?<KeyType>(keyDecryptionAlgorithm: AsymmetricKeyAlgorithm, keyDecryptionKey kdk: KeyType, contentDecryptionAlgorithm: SymmetricKeyAlgorithm) {
-        self.init(keyDecryptionAlgorithm: keyDecryptionAlgorithm, decryptionKey: kdk, contentDecryptionAlgorithm: contentDecryptionAlgorithm)
-    }
-
-    internal func decrypt(_ context: DecryptionContext) throws -> Data {
-        guard let alg = context.header.algorithm, alg == asymmetric.algorithm else {
-            throw JWEError.keyEncryptionAlgorithmMismatch
-        }
-
-        guard let enc = context.header.encryptionAlgorithm, enc == symmetric.algorithm else {
-            throw JWEError.contentEncryptionAlgorithmMismatch
-        }
-
-        var cek: Data
-
-        if alg == .direct {
-            guard context.encryptedKey == Data() else {
-                throw JOSESwiftError.decryptingFailed(
-                    description: "Direct encryption does not expect an encrypted key."
-                )
-            }
-            guard let symmetricKey = symmetric.symmetricKey else {
-                throw JOSESwiftError.decryptingFailed(
-                    description: "Did not supply a shared symmetric key for decryption."
-                )
-            }
-
-            cek = symmetricKey
-        } else {
-            // Generate a random CEK to substitue in case we fail to decrypt the CEK.
-            // This is to prevent the MMA (Million Message Attack) against RSA.
-            // For detailed information, please refer to RFC-3218 (https://tools.ietf.org/html/rfc3218#section-2.3.2),
-            // RFC-5246 (https://tools.ietf.org/html/rfc5246#appendix-F.1.1.2),
-            // and http://www.ietf.org/mail-archive/web/jose/current/msg01832.html.
-            let randomCEK = try SecureRandom.generate(count: enc.keyLength)
-
-            if let decryptedCEK = try? asymmetric.decrypt(context.encryptedKey) {
-                cek = decryptedCEK
-            } else {
-                cek = randomCEK
-            }
-        }
-
-        let symmetricContext = SymmetricDecryptionContext(
-            ciphertext: context.ciphertext,
-            initializationVector: context.initializationVector,
-            additionalAuthenticatedData: context.header.data().base64URLEncodedData(),
-            authenticationTag: context.authenticationTag
-        )
-
-        return try symmetric.decrypt(symmetricContext, with: cek)
-    }
 }
