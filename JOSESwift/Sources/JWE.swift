@@ -5,7 +5,7 @@
 //  Created by Daniel Egger on 12/10/2017.
 //
 //  ---------------------------------------------------------------------------
-//  Copyright 2018 Airside Mobile Inc.
+//  Copyright 2019 Airside Mobile Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 import Foundation
 
 internal enum JWEError: Error {
-    case keyEncryptionAlgorithmMismatch
+    case keyManagementAlgorithmMismatch
     case contentEncryptionAlgorithmMismatch
     case keyLengthNotSatisfied
     case hmacNotAuthenticated
@@ -73,7 +73,7 @@ public struct JWE {
     public init<KeyType>(header: JWEHeader, payload: Payload, encrypter: Encrypter<KeyType>) throws {
         self.header = header
 
-        var encryptionContext: EncryptionContext
+        var encryptionContext: Encrypter<KeyType>.EncryptionContext
         do {
             encryptionContext = try encrypter.encrypt(header: header, payload: payload.compressed(using: header.compressionAlgorithm))
         } catch JOSESwiftError.compressionFailed {
@@ -143,8 +143,8 @@ public struct JWE {
     /// - Throws: A `JOSESwiftError` indicating any errors.
     @available(*, deprecated, message: "Use `decrypt(using decrypter:)` instead")
     public func decrypt<KeyType>(with key: KeyType) throws -> Payload {
-        let context = DecryptionContext(
-            header: header,
+        let context = Decrypter.DecryptionContext(
+            protectedHeader: header,
             encryptedKey: encryptedKey,
             initializationVector: initializationVector,
             ciphertext: ciphertext,
@@ -179,8 +179,8 @@ public struct JWE {
     /// - Returns: The decrypted payload of the JWE.
     /// - Throws: A `JOSESwiftError` indicating any errors.
     public func decrypt(using decrypter: Decrypter) throws -> Payload {
-        let context = DecryptionContext(
-            header: header,
+        let context = Decrypter.DecryptionContext(
+            protectedHeader: header,
             encryptedKey: encryptedKey,
             initializationVector: initializationVector,
             ciphertext: ciphertext,
@@ -188,8 +188,8 @@ public struct JWE {
         )
 
         guard
-            decrypter.asymmetric.algorithm == header.algorithm,
-            decrypter.symmetric.algorithm == header.encryptionAlgorithm
+            decrypter.keyManagementAlgorithm == header.keyManagementAlgorithm,
+            decrypter.contentEncryptionAlgorithm == header.contentEncryptionAlgorithm
         else {
             throw JOSESwiftError.decryptingFailed(description: "JWE header algorithms do not match encrypter algorithms.")
         }

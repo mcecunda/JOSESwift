@@ -6,7 +6,7 @@
 //  Created by Daniel Egger on 21.12.17.
 //
 //  ---------------------------------------------------------------------------
-//  Copyright 2018 Airside Mobile Inc.
+//  Copyright 2019 Airside Mobile Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -121,5 +121,45 @@ class JWKRSAKeysTests: RSACryptoTestCase {
             ])
 
         XCTAssertEqual(jwk.parameters.count, 6)
+    }
+
+    @available(iOS 11.0, *)
+    func testThumbprintPublicKey() {
+        let jwk = RSAPublicKey(modulus: "n", exponent: "e")
+        XCTAssertEqual(try? jwk.thumbprint(), "lPd1Hx7fpYY23pQVKnFvOEtk_jFe5EV8ZISUGTSGA_U")
+    }
+
+    @available(iOS 11.0, *)
+    func testThumbprintPrivateKey() {
+        let jwk = RSAPrivateKey(modulus: "A", exponent: "B", privateExponent: "C")
+        XCTAssertEqual(try? jwk.thumbprint(), "slXDutAKWp8bubkrYoqeq5EwSQDtZdooHiG4TVQUptY")
+    }
+
+    @available(iOS 11.0, *)
+    func testAddPublicThumbprintToJWK() throws {
+        let jwk = try RSAPublicKey(modulus: "n", exponent: "e").withThumbprintAsKeyId()
+        XCTAssertEqual(jwk.parameters[JWKParameter.keyIdentifier.rawValue], "lPd1Hx7fpYY23pQVKnFvOEtk_jFe5EV8ZISUGTSGA_U")
+    }
+
+    @available(iOS 11.0, *)
+    func testAddPublicThumbprintToJWKCopyParamters() throws {
+        let useKey = "sig"
+        let jwk = try RSAPublicKey(modulus: "n", exponent: "e", additionalParameters: [JWKParameter.keyUse.rawValue: useKey]).withThumbprintAsKeyId()
+        XCTAssertEqual(jwk.parameters[JWKParameter.keyIdentifier.rawValue], "lPd1Hx7fpYY23pQVKnFvOEtk_jFe5EV8ZISUGTSGA_U")
+        XCTAssertEqual(jwk.parameters[JWKParameter.keyUse.rawValue], useKey)
+    }
+
+    @available(iOS 11.0, *)
+    func testAddPrivateThumbprintToJWK() throws {
+        let jwk = try RSAPrivateKey(modulus: "A", exponent: "B", privateExponent: "C").withThumbprintAsKeyId()
+        XCTAssertEqual(jwk.parameters[JWKParameter.keyIdentifier.rawValue], "slXDutAKWp8bubkrYoqeq5EwSQDtZdooHiG4TVQUptY")
+    }
+
+    @available(iOS 11.0, *)
+    func testAddPrivateThumbprintToJWKCopyParamters() throws {
+        let useKey = "sig"
+        let jwk = try RSAPrivateKey(modulus: "A", exponent: "B", privateExponent: "C", additionalParameters: [JWKParameter.keyUse.rawValue: useKey]).withThumbprintAsKeyId()
+        XCTAssertEqual(jwk.parameters[JWKParameter.keyIdentifier.rawValue], "slXDutAKWp8bubkrYoqeq5EwSQDtZdooHiG4TVQUptY")
+        XCTAssertEqual(jwk.parameters[JWKParameter.keyUse.rawValue], useKey)
     }
 }

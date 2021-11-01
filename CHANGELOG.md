@@ -2,27 +2,62 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-[PSPDFKit's Changelog Format](https://pspdfkit.com/blog/2018/the-challenges-of-changelogs/)
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-
-If applicable, start each entry with one of the following keywords: 
-
-- *API*: For highlighting breaking API changes that require people to change their implementations
-- *Adds*: For listing new features
-- *Fixes*: For listing bugfixes
-- *Changes*: For listing improvements and other changes
-- *Deprecates*: For listing API deprecations
-- *Security*: For highlighting changes related to security vulnerabilities
-
 Include references to issue- or pull-request numbers.
-Use active language and present tense.
-For convenience, please track any of your changes in the *Unreleased* section 
-so they can be moved to a respective version upon release.
 
-## Unreleased
+## [2.4.0] - 2021-04-20
 
-Add your changes here.
+- Use timing safe byte comparison for AES CBC MAC checks (#259)
+- Add support for JWS HS256, HS384, and HS512 algorithms (#258)
+- Bump kramdown from 2.3.0 to 2.3.1 (#255)
+- Update SPM installation instructions (#252)
+- Automate publishing releases on GitHub (#249)
+
+## [2.3.1] - 2020-12-14
+
+- Stop installing SwiftLint when it's not installed (#246)
+
+## [2.3.0] - 2020-11-11
+
+- Add parsed JWK header parameter (#240)
+- Apply Xcode12 recommended settings (#236)
+- Add macOS to platforms (#233)
+- Update danger (#232)
+
+## [2.2.1] - 2020-06-24
+
+- Copy additional parameters when updating JWT with keyId (#225)
+- Add SPM installation to readme (#224)
+
+## [2.2.0] - 2020-06-17
+
+- Swift package support ([#221](https://github.com/airsidemobile/JOSESwift/pull/221)) via [@rogermadsen](https://github.com/rogermadsen)
+- Added JWK thumbprint computation ([#220](https://github.com/airsidemobile/JOSESwift/pull/220)) via [@Torsph](https://github.com/Torsph)
+
+## [2.1.0] - 2020-02-24
+
+- Deprecated old encrypter and decrypter APIs ([#216](https://github.com/airsidemobile/JOSESwift/pull/216)) via [@daniel-mohemian](https://github.com/daniel-mohemian)
+- Added A128KW, A192KW, and A256KW algorithms ([#211](https://github.com/airsidemobile/JOSESwift/pull/211)) via [@mtamu](https://github.com/mtamu)
+- Changed internal JWE encryption and decryption flows ([#210](https://github.com/airsidemobile/JOSESwift/pull/210)) via [@daniel-mohemian](https://github.com/daniel-mohemian)
+- Changed CI to CircleCI ([#205](https://github.com/airsidemobile/JOSESwift/pull/205)) via [@haeser](https://github.com/haeser)
+- Dried up signing roundtrip tests ([#198](https://github.com/airsidemobile/JOSESwift/pull/198)) via [@daniel-mohemian](https://github.com/daniel-mohemian)
+- Added full Sonarqube analysis to pull requests ([#201](https://github.com/airsidemobile/JOSESwift/pull/201)) via [@daniel-mohemian](https://github.com/daniel-mohemian)
+- Updated Sonarqube lane to work with the Xcode 11 coverage report format ([#193](https://github.com/airsidemobile/JOSESwift/pull/193)) via [@daniel-mohemian](https://github.com/daniel-mohemian)
+
+## [2.0.0] - 2019-11-20
+
+- Fixes copyright update in prepare lane ([(#191)](https://github.com/airsidemobile/JOSESwift/pull/191)) via [@daniel-mohemian](https://github.com/daniel-mohemian)
+- Updates travis build environment ([(#190)](https://github.com/airsidemobile/JOSESwift/pull/190)) via [@daniel-mohemian](https://github.com/daniel-mohemian)
+- Adds support for RSA PSS and RS384 signatures ([(#188)](https://github.com/airsidemobile/JOSESwift/pull/188)) via [@JohanObrink](https://github.com/JohanObrink)
+- Removes twitter handle from readme again ([(#187)](https://github.com/airsidemobile/JOSESwift/pull/187)) via [@carol-mohemian](https://github.com/carol-mohemian)
+- Removes .swift-version file ([(#185)](https://github.com/airsidemobile/JOSESwift/pull/185)) via [@carol-mohemian](https://github.com/carol-mohemian)
+- Adds Ivans twitter handle ([(#184)](https://github.com/airsidemobile/JOSESwift/pull/184)) via [@carol-mohemian](https://github.com/carol-mohemian)
+- Updates fastlane ([(#182)](https://github.com/airsidemobile/JOSESwift/pull/182)) via [@daniel-mohemian](https://github.com/daniel-mohemian)
+- Adds missing license headers and automate their yearly updates ([(#179)](https://github.com/airsidemobile/JOSESwift/pull/179)) via [@daniel-mohemian](https://github.com/daniel-mohemian)
+- Extends JOSESwift Errors with localAuthentication ([(#173)](https://github.com/airsidemobile/JOSESwift/pull/173)) via [@Niklas01](https://github.com/Niklas01)
+- Bumps swift version in podspec and version file ([(#167)](https://github.com/airsidemobile/JOSESwift/pull/167)) via [@daniel-mohemian](https://github.com/daniel-mohemian)
+- Bumps fastlane to resolve mini_magic dependency warning ([(#164)](https://github.com/airsidemobile/JOSESwift/pull/164)) via [@daniel-mohemian](https://github.com/daniel-mohemian)
+- Adds security policy ([(#159)](https://github.com/airsidemobile/JOSESwift/pull/159)) via [@daniel-mohemian](https://github.com/daniel-mohemian)
+- Adds simple Sonarqube setup ([(#158)](https://github.com/airsidemobile/JOSESwift/pull/158)) via [@daniel-mohemian](https://github.com/daniel-mohemian)
 
 ## [1.8.1] - 2019-06-27
 

@@ -5,7 +5,7 @@
 //  Created by Daniel Egger on 10.07.18.
 //
 //  ---------------------------------------------------------------------------
-//  Copyright 2018 Airside Mobile Inc.
+//  Copyright 2019 Airside Mobile Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -58,6 +58,14 @@ public struct SymmetricKey: JWK {
 
     /// The JWK parameters.
     public let parameters: [String: String]
+
+    /// The symmetric key required parameters
+    public var requiredParameters: [String: String] {
+        [
+            JWKParameter.keyType.rawValue: self.keyType.rawValue,
+            SymmetricKeyParameter.key.rawValue: self.key
+        ]
+    }
 
     /// The symmetric key represented as
     /// base64url encoding of the octet sequence containing the key data.
@@ -117,5 +125,13 @@ public struct SymmetricKey: JWK {
             throw JOSESwiftError.symmetricKeyNotBase64URLEncoded
         }
         return try T.representing(symmetricKeyComponents: (keyData))
+    }
+
+    @available(iOS 11.0, *)
+    public func withThumbprintAsKeyId(algorithm: JWKThumbprintAlgorithm = .SHA256) throws -> Self {
+        let keyId = try thumbprint(algorithm: algorithm)
+        return .init(key: try converted(to: Data.self), additionalParameters: parameters.merging([
+            JWKParameter.keyIdentifier.rawValue: keyId
+        ], uniquingKeysWith: { (_, new) in new }))
     }
 }

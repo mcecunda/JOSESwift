@@ -5,7 +5,7 @@
 //  Created by Daniel Egger on 18/08/2017.
 //
 //  ---------------------------------------------------------------------------
-//  Copyright 2018 Airside Mobile Inc.
+//  Copyright 2019 Airside Mobile Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -61,8 +61,17 @@ public struct JWS {
         do {
             self.signature = try signer.sign(header: header, payload: payload)
         } catch {
+            if let ecError = error as? ECError {
+                switch ecError {
+                case .localAuthenticationFailed(errorCode: let errorCode):
+                    throw JOSESwiftError.localAuthenticationFailed(errorCode: errorCode)
+                default:
+                    break
+                }
+            }
             throw JOSESwiftError.signingFailed(description: error.localizedDescription)
         }
+
     }
 
     /// Constructs a JWS object from a given compact serialization string.
@@ -192,6 +201,7 @@ public struct JWS {
             return false
         }
     }
+
 }
 
 extension JWS: CompactSerializable {

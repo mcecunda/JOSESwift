@@ -5,7 +5,7 @@
 //  Created by Carol Capek on 05.12.17.
 //
 //  ---------------------------------------------------------------------------
-//  Copyright 2018 Airside Mobile Inc.
+//  Copyright 2019 Airside Mobile Inc.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import Foundation
 import CommonCrypto
 
 enum HMACError: Error {
+    case algorithmNotSupported
     case inputMustBeGreaterThanZero
 }
 
@@ -33,7 +34,8 @@ fileprivate extension HMACAlgorithm {
         switch self {
         case .SHA512:
             return CCAlgorithm(kCCHmacAlgSHA512)
-
+        case .SHA384:
+            return CCAlgorithm(kCCHmacAlgSHA384)
         case .SHA256:
             return CCAlgorithm(kCCHmacAlgSHA256)
         }
@@ -41,6 +43,8 @@ fileprivate extension HMACAlgorithm {
 }
 
 internal struct HMAC {
+    typealias KeyType = Data
+
     /// Calculates a HMAC of an input with a specific HMAC algorithm and the corresponding HMAC key.
     ///
     /// - Parameters:
