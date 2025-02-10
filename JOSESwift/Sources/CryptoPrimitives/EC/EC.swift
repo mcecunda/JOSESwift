@@ -146,8 +146,8 @@ public enum ECCompression: UInt8 {
 
 internal struct EC {
     typealias KeyType = SecKey
-    typealias PrivateKey = ECPrivateKey
-    typealias PublicKey = ECPublicKey
+//    typealias PrivateKey = SecKey
+//    typealias PublicKey = SecKey
 
     ///  Signs input data with a given elliptic curve algorithm and the corresponding private key.
     ///
@@ -293,8 +293,8 @@ internal struct EC {
                                      header: JWEHeader,
                                      options: [String: Any] = [:]
     ) throws -> (contentEncryptionKey: Data, encryptedKey: Data, jweHeaderData: Data) {
-        var ephemeralKeyPair: ECKeyPair
-        if let eKeyPair = options["ephemeralKeyPair"] as? ECKeyPair {
+        var ephemeralKeyPair: KeyType
+        if let eKeyPair = options["ephemeralKeyPair"] as? KeyType {
             ephemeralKeyPair = eKeyPair
         } else {
             ephemeralKeyPair = try ECKeyPair.generateWith(publicKey.crv)
@@ -356,10 +356,12 @@ internal struct EC {
             throw ECError.invalidJWK(reason: "missing ephemeral public key in header")
         }
 
+        let publicKey = try! ephemeralPubKey.converted(to: SecKey.self)
+
         // apu and apv have to be base64URL encoded as described here : https://datatracker.ietf.org/doc/html/rfc7518#page-17
         let apu = Data(base64URLEncoded: jweHeader.apu ?? "") ?? Data()
         let apv = Data(base64URLEncoded: jweHeader.apv ?? "") ?? Data()
-        let kek = try keyAgreementCompute(with: algorithm, encryption: encryption, privateKey: privateKey, publicKey: ephemeralPubKey, apu: apu, apv: apv)
+        let kek = try keyAgreementCompute(with: algorithm, encryption: encryption, privateKey: privateKey, publicKey: publicKey, apu: apu, apv: apv)
 
         if let keyWrapAlgorithm = algorithm.keyWrapAlgorithm {
             let unwrap = try AES.unwrap(wrappedKey: encryptedKey, keyEncryptionKey: kek, algorithm: keyWrapAlgorithm)

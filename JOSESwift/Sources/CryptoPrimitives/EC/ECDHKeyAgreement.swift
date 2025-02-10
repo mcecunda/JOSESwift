@@ -35,7 +35,7 @@ import CommonCrypto
 ///   - apv: agreementPartyVInfo.
 /// - Returns: Result of key agreement operation as a Data
 /// - Throws: `ECError.deriveKeyFail` if any error occurs while derivation.
-func keyAgreementCompute(with algorithm: KeyManagementAlgorithm, encryption: ContentEncryptionAlgorithm, privateKey: ECPrivateKey, publicKey: ECPublicKey, apu: Data, apv: Data) throws -> Data {
+func keyAgreementCompute(with algorithm: KeyManagementAlgorithm, encryption: ContentEncryptionAlgorithm, privateKey: SecKey, publicKey: SecKey, apu: Data, apv: Data) throws -> Data {
 
     let z = try ecdhDeriveBits(for: privateKey, publicKey: publicKey)
     var algId: Data
@@ -68,12 +68,13 @@ func keyAgreementCompute(with algorithm: KeyManagementAlgorithm, encryption: Con
 ///   - bitLen: key size
 /// - Returns: Result of key exchange operation as a Data
 /// - Throws: `ECError.deriveKeyFail` if any error occurs while derivation.
-func ecdhDeriveBits(for privateKey: ECPrivateKey, publicKey: ECPublicKey, bitLen: Int = 0) throws -> Data {
+func ecdhDeriveBits(for privateKey: SecKey, publicKey: SecKey, bitLen: Int = 0) throws -> Data {
+//    privateKey.getPublic().ecPublicKeyComponents().crv
     if privateKey.crv != publicKey.crv {
         throw ECError.deriveKeyFail(reason: "Private Key curve and Public Key curve are different")
     }
-    let pubKey = try publicKey.converted(to: SecKey.self)
-    let privKey = try privateKey.converted(to: SecKey.self)
+    let pubKey = publicKey
+    let privKey = privateKey
     let parameters = [String: Any]()
     var error: Unmanaged<CFError>?
 
